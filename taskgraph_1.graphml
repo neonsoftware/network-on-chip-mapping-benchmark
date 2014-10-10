@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns
+     http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+
+  <graph id="TaskGraph" edgedefault="directed">
+
+   <node id="1" Name="T1" WCET="1" 	BCET="0" 	Period="6"  Deadline="6"  Priority="1" />
+   <node id="3" Name="T3" WCET="1" 	BCET="1" 	Period="10" Deadline="10" Priority="2" />
+   <node id="4" Name="T4" WCET="2" 	BCET="1" 	Period="12" Deadline="12" Priority="3" />
+   <node id="5" Name="T5" WCET="2" 	BCET="1" 	Period="15" Deadline="15" Priority="4" />
+   <node id="6" Name="T6" WCET="3"	BCET="1" 	Period="20" Deadline="20" Priority="5" />
+   <node id="7" Name="T7" WCET="4" 	BCET="1" 	Period="30" Deadline="30" Priority="6" />
+   <node id="2" Name="T2" WCET="4" 	BCET="3" 	Period="60"	Deadline="60" Priority="7" />
+  </graph>
+</graphml>
