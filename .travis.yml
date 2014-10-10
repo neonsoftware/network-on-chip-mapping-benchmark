@@ -1,0 +1,3 @@
+language: python
+script:
+  - python dtu_tabu.py -m 5 -n 5 --size_tabu 10 --global_loops 1000 --num_candidates 4 application.graphml

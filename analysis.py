@@ -1,4 +1,4 @@
-from task import Task 
+from data_structures import Task 
 
 import math
 

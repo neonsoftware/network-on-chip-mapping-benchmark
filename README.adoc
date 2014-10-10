@@ -1,0 +1,112 @@
+image:https://travis-ci.org/neonsoftware/network-on-chip-mapping-benchmark.svg?branch=master["Build Status", link="https://travis-ci.org/neonsoftware/network-on-chip-mapping-benchmark"]
+
+== Application Mapping Benchmark
+
+
+A python implementation and benchmarking of two algorithms for the the IP Mapping Problem within Network On Chip (NOC) systems.
+
+
+=== NOC
+
+Network on chip (NoC) is the technology that enables many different hardware modules to be interconnected in a single chip, where the communication happens via a network protocol, therefore every computation core (IP) has a network router that takes care of communication.
+
+At NoC level, the reduction of communication load has not only the advantage of reducing the possibility of congestion and delays, but it also reduces the power consumption, as data transfers through the chip’s traces in form on electrical signal, which will require more energy the distance it has to cover increases.
+
+=== The IP Mapping Problem
+
+The IP Mapping problem deals with the search of the mapping between tasks to be performed and IP Cores that minimizes a cost function.
+The context used for the cost function will include both the communication model and the energy model.
+
+Given an N number of tasks and M number of IP Cores, the possible mappings are all the possible permutation of the tasks, therefore it is a hard problem (NP-Hard, as the TSP problem can be transformed in a mapping problem).
+
+
+=== The algorithms
+
+
+Use the option -h to discover the usage
+
+
+==== LFC
+
+LFC - Longest communication first.
+
+As the title suggests, this algorithm lists the modules according to their communication needs and places them in different tiles of the chip.
+
+More precisely it or- ders the tasks according to the number of other tasks that it interacts with, then it divides the tiles (there- fore also the network components) in groups according to the number of connections (4 for the ones in the cernter, 3 for the ones on the side, 2 on corners).
+
+It then tries to match the more communicating ones on the center, and so on, iterating to find always the best fit whenever there is a choice. The algorithm is very fast, as it is linear to the number of tiles.
+
+Usage :
+
+```shell
+> python dtu_lcf.py -m 5 -n 5 application.graphml
+```
+
+more info with --help
+```shell
+> python dtu_lcf.py --help
+
+usage: dtu_lcf.py [-h] -m LINES -n COLUMNS [-v VERBOSE] file
+
+Description of your program
+
+positional arguments:
+  file                  Path of input file
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -m LINES, --lines LINES
+                        Tiles lines
+  -n COLUMNS, --columns COLUMNS
+                        Tiles columns
+  -v VERBOSE, --verbose VERBOSE
+                        Verbose
+```
+
+The <.graphml> has to contain edges, use application.graphml as example.
+
+
+==== Tabu Search
+
+The tabu search related to another algorithm called simulating anealling. This method is a stochastic process, which means that the solution comes from the analysis of continuous ran- dom tries. This algorithm is composed by two loops, one global and one local.
+
+While the global loop moves widely over the search space, the local search aims for refining a random so- lution in that area by moving to the nearby solutions. It is very important that in the internal refinement loop, when comparing two nearby solutions, not all the cost function will be recalculated, but rather just the difference.
+
+This will be possible by studying the cost function, and extract a way to calculate the difference give two different inputs. In order to limit the number of tries a decreasing variable called ”temperature” is used.
+
+Tabu search is similar to this algorithm, as is composed of a local search and a global search, but it differs by using of a list of elements, called ”taboo list”, to not be looked anymore.
+
+Usage :
+
+```shell
+> python dtu_tabu.py -m 5 -n 5 --size_tabu 10 --global_loops 1000 --num_candidates 4 application.graphml
+
+```
+more info with --help
+```shell
+> python dtu_taby --help
+
+usage: dtu_tabu.py [-h] -m LINES -n COLUMNS [-v VERBOSE] --size_tabu SIZE_TABU
+                   --global_loops GLOBAL_LOOPS --num_candidates NUM_CANDIDATES
+                   file
+
+Description of your program
+
+positional arguments:
+  file                  Path of input file
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -m LINES, --lines LINES
+                        Tiles lines
+  -n COLUMNS, --columns COLUMNS
+                        Tiles columns
+  -v VERBOSE, --verbose VERBOSE
+                        Verbose
+  --size_tabu SIZE_TABU
+                        Size of the tabu list
+  --global_loops GLOBAL_LOOPS
+                        Number of global loops
+  --num_candidates NUM_CANDIDATES
+                        Number of candidates per internal loop
+```
